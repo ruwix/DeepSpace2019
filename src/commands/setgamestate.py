@@ -6,6 +6,7 @@ from commands import setshortarm, setlongarm
 from constants import Constants
 from wpilib import SmartDashboard as Dash
 import logging
+from commands import tankarm
 
 
 class SetGameState(CommandGroup):
@@ -13,8 +14,8 @@ class SetGameState(CommandGroup):
         super().__init__()
         self.state = state
         posture = Constants.GAME_STATES[self.state.value]
-        self.addSequential(setshortarm.SetShortArm(posture[0]))
-        self.addSequential(setlongarm.SetLongArm(posture[2]))
+        self.addParallel(setshortarm.SetShortArm(posture[0]))
+        self.addParallel(setlongarm.SetLongArm(posture[2]))
 
     def initialize(self):
         pass

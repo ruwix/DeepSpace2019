@@ -1,7 +1,7 @@
 from utils import joystick, singleton, intakestate, hatchlatchstate, gamestate
 from constants import Constants
 from wpilib.buttons.joystickbutton import JoystickButton
-from commands import sethatchlatchstate, drivetimed, setintakestate, setlongarm, setgamestate, rollclimbroller, autoclimb
+from commands import sethatchlatchstate, drivetimed, setintakestate, setlongarm, setgamestate, rollclimbroller
 
 
 class OI(metaclass=singleton.Singleton):
@@ -51,7 +51,7 @@ class OI(metaclass=singleton.Singleton):
         self.operator_buttons[0].whenPressed(self.game_stow)
         self.operator_buttons[1].whenPressed(self.game_play)
         self.operator_buttons[2].whenPressed(self.game_start_climb)
-        self.operator_buttons[3].whenPressed(self.game_end_climb)
+        self.operator_buttons[3].whenPressed(self.game_end_game)
         # self.operator_buttons[4].whenPressed(self.intake_spit)
         # self.operator_buttons[4].whenReleased(self.intake_stop)
         # self.operator_buttons[5].whenPressed(self.intake_suck)
