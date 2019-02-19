@@ -19,7 +19,7 @@ class Constants:
 
     # Gyro
     GYRO_ID = 6
-    GYRO_OFFSET = math.radians(0.0)
+    GYRO_OFFSET = 0.0
 
     # Drive motors
     BL_MOTOR_ID = 2
@@ -149,7 +149,7 @@ class Constants:
     # Short arm
     SHORT_ARM_ACCELERATION = 10
     SHORT_ARM_CRUISE_VELOCITY = 10
-    SHORT_ARM_KP = 2
+    SHORT_ARM_KP = 4
     SHORT_ARM_KI = 0
     SHORT_ARM_KD = 100
     SHORT_ARM_KF = 0
