@@ -1,6 +1,7 @@
 from wpilib.command import InstantCommand
 
 from subsystems import drive, longarm, shortarm
+import odemetry
 
 
 class ZeroSensors(InstantCommand):
@@ -9,7 +10,7 @@ class ZeroSensors(InstantCommand):
         self.drive = drive.Drive()
         self.longarm = longarm.LongArm()
         self.shortarm = shortarm.ShortArm()
-
+        self.odemetry = odemetry.Odemetry()
         self.requires(self.drive)
         self.requires(self.longarm)
         self.requires(self.shortarm)
@@ -18,3 +19,4 @@ class ZeroSensors(InstantCommand):
         self.drive.reset()
         self.longarm.reset()
         self.shortarm.reset()
+        self.odemetry.reset()
