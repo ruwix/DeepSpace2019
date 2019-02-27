@@ -6,6 +6,7 @@ from wpilib.command import Subsystem
 
 from constants import Constants
 from utils import singleton, units, lazytalonsrx
+import math
 
 
 class Drive(Subsystem, metaclass=singleton.Singleton):
@@ -59,6 +60,11 @@ class Drive(Subsystem, metaclass=singleton.Singleton):
 
     def setPercentOutput(self, bl_signal, br_signal, fl_signal, fr_signal):
         """Set the percent output of the 4 motors."""
+        bl_signal = math.copysign(abs(bl_signal)**Constants.BL_EXP, bl_signal)
+        br_signal = math.copysign(abs(br_signal)**Constants.BR_EXP, br_signal)
+        fl_signal = math.copysign(abs(fl_signal)**Constants.FL_EXP, fl_signal)
+        fr_signal = math.copysign(abs(fr_signal)**Constants.FR_EXP, fr_signal)
+
         self.bl_motor.setPercentOutput(
             bl_signal, max_signal=Constants.MAX_DRIVE_OUTPUT)
         self.br_motor.setPercentOutput(
@@ -70,6 +76,8 @@ class Drive(Subsystem, metaclass=singleton.Singleton):
 
     def setDirectionOutput(self, x_signal, y_signal, rotation):
         """Set percent output of the 4 motors given an x, y, and rotation inputs."""
+        if Constants.MAX_TURN_SPEED < abs(rotation):
+            rotation = math.copysign(Constants.MAX_TURN_SPEED, rotation)
         bl_signal = x_signal - y_signal + rotation
         br_signal = x_signal + y_signal - rotation
         fl_signal = x_signal + y_signal + rotation

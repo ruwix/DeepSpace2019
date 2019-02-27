@@ -67,6 +67,13 @@ class Constants:
     CPR_ARM_B = 1440
     CPR_INTAKE_W = 1440
 
+    # Drive fixes
+    BL_EXP = 1
+    BR_EXP = 1
+    FL_EXP = 1
+    FR_EXP = 1
+    MAX_TURN_SPEED = 0.5
+
     # Drive motor pidf values
     DRIVE_SPEED = 500
 
@@ -91,12 +98,14 @@ class Constants:
     FR_VELOCITY_KF = 0.3654
 
     # Turn to angle pidf values
-    TURN_TO_ANGLE_KP = 0.0025
+    TURN_TO_ANGLE_KP = 0.03
     TURN_TO_ANGLE_KI = 5e-6
     TURN_TO_ANGLE_KD = 4e-5
     TURN_TO_ANGLE_KF = 0
 
     TURN_TO_ANGLE_MIN_OUTPUT = 0.2
+    TURN_TO_ANGLE_MAX_OUTPUT = 0.5
+
     TURN_TO_ANGLE_TIMEOUT = 0
     TURN_TO_ANGLE_TOLERANCE = 2
 
@@ -127,7 +136,7 @@ class Constants:
     OPERATOR_T_MOD = 1
 
     JOYSTICK_DEADZONE = 0.05
-    TANK_DRIVE_EXPONENT = 1
+    TANK_DRIVE_EXPONENT = 3
     TANK_DRIVE_ROTATION_EXPONENT = 3
     TANK_DRIVE_FRONT_SPEEDUP = 0.05
     TANK_PERCENT_OUTPUT = True
@@ -149,7 +158,7 @@ class Constants:
     # Short arm
     SHORT_ARM_ACCELERATION = 10
     SHORT_ARM_CRUISE_VELOCITY = 10
-    SHORT_ARM_KP = 4
+    SHORT_ARM_KP = 6
     SHORT_ARM_KI = 0
     SHORT_ARM_KD = 100
     SHORT_ARM_KF = 0
@@ -164,6 +173,9 @@ class Constants:
     LONG_ARM_KF = 0
     LONG_ARM_ANGLE = 0
 
+    # Climb arms
+    CLIMB_SPEED = 0.5
+
     # Climb roller
     CLIMB_ROLLER_SPEED = -0.5
 
@@ -175,8 +187,8 @@ class Constants:
 
     # Game states (short arm, intake, long arm)
     GAME_STATES = [[-25, 0, -90],  # stow
-                   [-25, -90, 0],  # play
-                   [0, 0, 0],  # start climb
+                   [-25, -90, 1],  # play
+                   [-25, -90, -10],  # start climb
                    [-90, 0, 90],  # end climb
                    [0, 0, 0]]  # end game
 
