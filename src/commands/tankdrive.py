@@ -13,7 +13,6 @@ from utils import vector2d, units
 import logging
 from commands import turntoangle
 
-
 class TankDrive(Command):
     def __init__(self, allocentric=False):
         super().__init__()

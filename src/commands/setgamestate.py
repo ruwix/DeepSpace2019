@@ -2,11 +2,10 @@ from wpilib.command import CommandGroup
 
 from subsystems import intake
 from utils.gamestate import GameState
-from commands import setshortarm, setlongarm
+from commands import setshortarm, setlongarm, tankarm
 from constants import Constants
 from wpilib import SmartDashboard as Dash
 import logging
-from commands import tankarm
 
 
 class SetGameState(CommandGroup):
