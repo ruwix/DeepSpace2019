@@ -19,6 +19,7 @@ from wpilib import watchdog
 import logging
 import coloredlogs
 from wpilib import LiveWindow
+from wpilib.command import Scheduler
 
 
 class Robot(CommandBasedRobot):
@@ -27,8 +28,8 @@ class Robot(CommandBasedRobot):
         """Run when the robot turns on."""
         field_styles = coloredlogs.DEFAULT_FIELD_STYLES
         field_styles['filename'] = {'color': 'cyan'}
-        coloredlogs.install(level='DEBUG', 
-            fmt="%(asctime)s[%(msecs)d] %(filename)s:%(lineno)d %(name)s %(levelname)s %(message)s", datefmt="%m-%d %H:%M:%S", field_styles=field_styles)  # install to created handler
+        coloredlogs.install(level='WARN',
+                            fmt="%(asctime)s[%(msecs)d] %(filename)s:%(lineno)d %(name)s %(levelname)s %(message)s", datefmt="%m-%d %H:%M:%S", field_styles=field_styles)  # install to created handler
         Command.getRobot = lambda x=0: self
         # Update constants from json file on robot
         # if self.isReal():
@@ -51,18 +52,19 @@ class Robot(CommandBasedRobot):
         self.test = testgroup.TestCommandGroup()
         self.global_ = globalgroup.GlobalCommandGroup()
         self.global_.setRunWhenDisabled(True)
-        # Start the camera sever
-        CameraServer.launch()
         self.watchdog = watchdog.Watchdog(
             Constants.WATCHDOG_TIMEOUT, self._watchdogTimeout)
         self.globalInit()
         LiveWindow.disableAllTelemetry()
 
     def _watchdogTimeout(self):
-        logging.warning("Watchdog timeout")
+        logging.warning(
+            f"Watchdog timeout. Scheduler: {[f'{key.name}: {value}' for key, value in Scheduler.getInstance().commandTable.items()]}")
 
     def globalInit(self):
         """Run on every init."""
+        CameraServer.launch()
+
         self.watchdog.enable()
         self.global_.start()
 
@@ -88,6 +90,8 @@ class Robot(CommandBasedRobot):
         self.test.start()
 
     def robotPeriodic(self):
+        logging.info(
+            f"Scheduler: {[f'{key.name}: {value}' for key, value in Scheduler.getInstance().commandTable.items()]}")
         self.outputToDashboard()
 
     def outputToDashboard(self):
