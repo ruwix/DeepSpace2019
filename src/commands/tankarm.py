@@ -1,8 +1,8 @@
 from wpilib.command import Command
 
 from subsystems import shortarm, longarm
-import logging
 import oi
+from constants import Constants
 
 
 class TankArm(Command):
@@ -10,7 +10,6 @@ class TankArm(Command):
         super().__init__()
         self.longarm = longarm.LongArm()
         self.shortarm = shortarm.ShortArm()
-
         self.requires(self.shortarm)
         self.requires(self.longarm)
 
@@ -18,8 +17,8 @@ class TankArm(Command):
         pass
 
     def execute(self):
-        long_speed = oi.OI().operator.getY() * 0.5
-        short_speed = oi.OI().operator.getThrottle() * 0.5
+        long_speed = oi.OI().operator.getY() * Constants.CLIMB_SPEED
+        short_speed = oi.OI().operator.getThrottle() * Constants.CLIMB_SPEED
         self.longarm.m_motor.setPercentOutput(long_speed)
         self.shortarm.m_motor.setPercentOutput(short_speed)
 
