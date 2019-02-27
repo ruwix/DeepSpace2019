@@ -10,6 +10,7 @@ from utils import pidf, units
 import odemetry
 import wpilib
 from wpilib import PIDController
+from commands import snaplistener
 
 
 class TurnToAngle(Command):
@@ -29,9 +30,11 @@ class TurnToAngle(Command):
         src = self.odemetry.pidgyro
         self.PID = PIDController(Constants.TURN_TO_ANGLE_KP, Constants.TURN_TO_ANGLE_KI,
                                  Constants.TURN_TO_ANGLE_KD, src, self._setMotors)
-        logging.debug("Turn to angle constructed with angle {}".format(setpoint))
+        logging.debug(
+            "Turn to angle constructed with angle {}".format(setpoint))
         self.PID.setInputRange(-180.0, 180.0)
-        self.PID.setOutputRange(-0.7, 0.7)
+        self.PID.setOutputRange(-Constants.TURN_TO_ANGLE_MAX_OUTPUT,
+                                Constants.TURN_TO_ANGLE_MAX_OUTPUT)
         self.PID.setContinuous(True)
         self.PID.setAbsoluteTolerance(Constants.TURN_TO_ANGLE_TOLERANCE)
         self.PID.setPIDSourceType(PIDController.PIDSourceType.kDisplacement)
@@ -40,6 +43,8 @@ class TurnToAngle(Command):
         self.PID.setP(Constants.TURN_TO_ANGLE_KP)
         self.PID.setI(Constants.TURN_TO_ANGLE_KI)
         self.PID.setD(Constants.TURN_TO_ANGLE_KD)
+        self.PID.setOutputRange(-Constants.TURN_TO_ANGLE_MAX_OUTPUT,
+                                Constants.TURN_TO_ANGLE_MAX_OUTPUT)
         self.PID.setAbsoluteTolerance(Constants.TURN_TO_ANGLE_TOLERANCE)
         self.PID.setSetpoint(self.setpoint)
         self.PID.enable()
@@ -54,6 +59,7 @@ class TurnToAngle(Command):
     def end(self):
         logging.debug("Finished turning to angle {}".format(self.setpoint))
         self.PID.disable()
+        snaplistener.SnapListener(0).start()
 
     def interrupted(self):
         self.end()
